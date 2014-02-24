@@ -12,7 +12,15 @@ typedef struct SayInnerStruct {
 
 } SayInner;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
 int sayRegister(SayInner *impl);
+    
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /* __CPP_IMPL_H__ */

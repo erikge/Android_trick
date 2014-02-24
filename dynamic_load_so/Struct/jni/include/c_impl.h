@@ -12,7 +12,15 @@ typedef struct CalculatorImplStruct {
 
 } CalculatorImpl;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
 int calRegister(CalculatorImpl *impl);
 
+#ifdef __cplusplus
+}
+#endif
+        
 #endif /* __CALCULATOR_C_IMPL_H__ */
 

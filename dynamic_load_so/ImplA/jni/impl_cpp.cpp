@@ -3,6 +3,8 @@
 #include <jni.h>
 #include <android/log.h>
 
+#include "c_impl.h"
+
 int implASayHello(SayHandle handle) {
     __android_log_print( ANDROID_LOG_DEBUG, "erik", "~~~~~~~~ hello");
 }
@@ -13,16 +15,16 @@ int implASayName(SayHandle handle) {
 }
 
 
-static SayInner s_inner = {
+static SayInner s_inner_cpp = {
     SAY_TYPE_A,
     implASayHello,
     implASayName,
 };
 
+extern CalculatorImpl s_inner_c;
+
 jint JNI_OnLoad(JavaVM* vm, void* /*reserved*/)
 {
-    __android_log_print( ANDROID_LOG_DEBUG, "erik", "~~~~~~~~ JNI_OnLoad cpp");
-    
     if (!vm)
     {
         __android_log_write(ANDROID_LOG_ERROR, "erik",
@@ -39,9 +41,12 @@ jint JNI_OnLoad(JavaVM* vm, void* /*reserved*/)
                             "JNI_OnLoad could not get JNI env");
         return -1;
     }
+
+    __android_log_print( ANDROID_LOG_DEBUG, "erik", "~~~~~~~~ JNI_OnLoad cpp");
+    sayRegister(&s_inner_cpp);
     
-    sayRegister(&s_inner);
-    
+    __android_log_print( ANDROID_LOG_DEBUG, "erik", "~~~~~~~~ JNI_OnLoad c");
+    calRegister(&s_inner_c);
     
     return JNI_VERSION_1_4;
 }
