@@ -1,13 +1,13 @@
+CACHED_LOCAL_PATH := $(call my-dir)
+
+### build struct #####################################################
+
 LOCAL_PATH := $(call my-dir)
+include $(LOCAL_PATH)/../../Struct/jni/Android.mk
 
-include $(CLEAR_VARS)
+### build implA #####################################################
 
-LOCAL_MODULE:= libstruct
-LOCAL_SRC_FILES:= ../../Struct/libs/armeabi-v7a/libstruct.so
-include $(PREBUILT_SHARED_LIBRARY)
-
-########################################################
-
+LOCAL_PATH := $(CACHED_LOCAL_PATH)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE    := implA
@@ -17,7 +17,7 @@ LOCAL_SRC_FILES := impl_c.c \
 LOCAL_C_INCLUDES :=  $(LOCAL_PATH)/../../Struct/jni/include
 
 LOCAL_LDLIBS := -llog
-LOCAL_SHARED_LIBRARIES := libstruct
+LOCAL_SHARED_LIBRARIES := libstruct # the name should be the same with the module name in struct's Android.mk
 
 include $(BUILD_SHARED_LIBRARY)
 
